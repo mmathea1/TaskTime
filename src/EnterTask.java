@@ -1,0 +1,144 @@
+
+import javax.swing.*;
+
+import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+
+public class EnterTask implements ActionListener, ItemListener{
+	private static JFrame mainFrame;
+	
+	
+	JPanel mainPanel, headerPanel, namePanel, timePanel, durationPanel, lowerPanel, tagPanel;
+	JLabel headerLabel, tasklabel, taglabel, timelabel, durationlabel;
+	JMenuBar menubar;
+	JMenu journal, report, newtask;
+	JButton saveButton, anotherbutton, deadlinebutton, projectbutton;
+	JTextField tasktext, durationtext, timetext;
+	JComboBox projectbox;
+	String projects[] = {"", "Swahili", "Connect", "Mary", "Laptop"};
+	
+	
+   public EnterTask()
+   {
+	   //JFrame set up
+      mainFrame = new JFrame("Task Time");
+      mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      mainFrame.setSize(500, 400);
+      mainFrame.setVisible(true);
+      
+      //main JPanel: holds all other JPanels
+      mainPanel = new JPanel();
+      mainPanel.setLayout(new GridLayout(4, 1));
+      
+      journal = new JMenu("Developer's Journal");
+      //journal.addActionListener(this);
+      report = new JMenu("My Completion Progress");
+      //report.addActionListener(this);
+      newtask = new JMenu("New task");
+      //newtask.addActionListener(this);
+ 
+      menubar = new JMenuBar();
+      menubar.add(newtask);
+      menubar.add(journal);
+      menubar.add(report);
+      
+  
+      //headerPanel: for the header
+      headerPanel = new JPanel();
+      headerLabel = new JLabel("Today's Actions");
+
+      namePanel = new JPanel();
+      namePanel.setLayout(new GridLayout(3, 1));
+      tasklabel = new JLabel("Task Name");
+      tasktext = new JTextField();
+      
+      tagPanel = new JPanel();
+      tagPanel.setLayout(new FlowLayout());
+      taglabel = new JLabel("Tag a project");
+      projectbox = new JComboBox(projects);
+      projectbox.addItemListener(this);
+      
+      projectbutton = new JButton("Start new Project");
+      projectbutton.addActionListener(this);
+      
+      //timePanel holds durationPanel
+      timePanel = new JPanel();
+      timePanel.setLayout(new FlowLayout(2));
+      
+      timelabel = new JLabel("Set time to start task"); 
+  
+      timetext = new JTextField(10);
+      String startText = timetext.getText();
+      DateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+
+		
+
+      durationPanel = new JPanel(new FlowLayout(2));
+      durationlabel = new JLabel("Duration of task");
+      //TODO: set textfield size 
+      durationtext = new JTextField(15);
+      durationtext.setEditable(false);
+      deadlinebutton = new JButton("Edit Deadline");
+      
+      lowerPanel = new JPanel();
+      lowerPanel.setLayout(new FlowLayout());
+      saveButton = new JButton("Save Task");
+      anotherbutton = new JButton("Another Task");  
+      
+      headerPanel.add(headerLabel);
+      namePanel.add(tasklabel);
+      namePanel.add(tasktext);
+      tagPanel.add(taglabel);
+      tagPanel.add(projectbox);
+      tagPanel.add(projectbutton);
+      namePanel.add(tagPanel);
+      timePanel.add(timelabel);
+      timePanel.add(timetext);
+      durationPanel.add(durationlabel);
+      durationPanel.add(durationtext);
+      durationPanel.add(deadlinebutton);
+      timePanel.add(durationPanel);
+      lowerPanel.add(saveButton);
+      lowerPanel.add(anotherbutton);
+      
+      //add panels to mainPanel
+      mainPanel.add(headerPanel);
+      mainPanel.add(namePanel);
+      mainPanel.add(timePanel);
+      mainPanel.add(lowerPanel);
+      
+      //add mainPanel to frame
+      mainFrame.add(mainPanel);
+      mainFrame.setJMenuBar(menubar);
+   }
+   public static void main (String[]args){
+	   new EnterTask();
+	   mainFrame.pack();
+	   
+   
+   }
+/* (non-Javadoc)
+ * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+ */
+@Override
+public void itemStateChanged(ItemEvent arg0) {
+	// TODO Auto-generated method stub
+	
+}
+/* (non-Javadoc)
+ * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+ */
+@Override
+public void actionPerformed(ActionEvent arg0) {
+	// TODO Auto-generated method stub
+	
+}
+}
