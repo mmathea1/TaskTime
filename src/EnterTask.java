@@ -1,30 +1,40 @@
 
 import javax.swing.*;
 
-import org.joda.time.DateTime;
-import org.joda.time.LocalTime;
+
+import com.github.lgooddatepicker.components.DatePickerSettings;
+import com.github.lgooddatepicker.components.DateTimePicker;
+import com.github.lgooddatepicker.components.TimePickerSettings;
+import com.github.lgooddatepicker.components.TimePickerSettings.TimeArea;
+import com.github.lgooddatepicker.zinternaltools.InternalUtilities;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+
+
 
 
 public class EnterTask implements ActionListener, ItemListener{
-	private static JFrame mainFrame;
+	static JFrame mainFrame;
 	
 	
-	JPanel mainPanel, headerPanel, namePanel, timePanel, durationPanel, lowerPanel, tagPanel;
-	JLabel headerLabel, tasklabel, taglabel, timelabel, durationlabel;
-	JMenuBar menubar;
-	JMenu journal, report, newtask;
-	JButton saveButton, anotherbutton, deadlinebutton, projectbutton;
-	JTextField tasktext, durationtext, timetext;
-	JComboBox projectbox;
-	String projects[] = {"", "Swahili", "Connect", "Mary", "Laptop"};
+	static JPanel mainPanel, headerPanel, namePanel, timePanel, durationPanel, lowerPanel, tagPanel;
+	static JLabel headerLabel, tasklabel, taglabel, timelabel, datelabel, durationlabel;
+	static JMenuBar menubar;
+	static JMenu journal, report, newtask;
+	static JButton saveButton, anotherbutton, deadlinebutton, projectbutton;
+	static JTextField tasktext, durationtext, timetext;
+	static JComboBox projectbox;
+	static String projects[] = {"", "Swahili", "Connect", "Mary", "Laptop"};
 	
+	public static void main (String[]args){
+		   new EnterTask();
+		   //set size of components to fit the frame
+		   mainFrame.pack();
+		   
+	   }
 	
    public EnterTask()
    {
@@ -38,6 +48,7 @@ public class EnterTask implements ActionListener, ItemListener{
       mainPanel = new JPanel();
       mainPanel.setLayout(new GridLayout(4, 1));
       
+      //Menu items
       journal = new JMenu("Developer's Journal");
       //journal.addActionListener(this);
       report = new JMenu("My Completion Progress");
@@ -64,23 +75,30 @@ public class EnterTask implements ActionListener, ItemListener{
       tagPanel.setLayout(new FlowLayout());
       taglabel = new JLabel("Tag a project");
       projectbox = new JComboBox(projects);
-      projectbox.addItemListener(this);
+      //projectbox.addItemListener(this);
       
       projectbutton = new JButton("Start new Project");
-      projectbutton.addActionListener(this);
+      //projectbutton.addActionListener(this);
       
-      //timePanel holds durationPanel
+      //timePanel holds durationPanel: enter time and date for project
       timePanel = new JPanel();
       timePanel.setLayout(new FlowLayout(2));
       
-      timelabel = new JLabel("Set time to start task"); 
+      //setting up DateTime
+      
+      datelabel = new JLabel("Start Date and Time");
+      //DatePicker
+      DatePickerSettings datesettings = new DatePickerSettings();
+      datesettings.setFirstDayOfWeek(DayOfWeek.MONDAY);
+      
+      //TimePicker
+      TimePickerSettings timesettings = new TimePickerSettings();
+      timesettings.setColor(TimeArea.TimePickerTextValidTime, Color.ORANGE);
+      timesettings.initialTime = LocalTime.now();
+      DateTimePicker dateTimePicker1 = new DateTimePicker(datesettings, timesettings); 
+      
   
-      timetext = new JTextField(10);
-      String startText = timetext.getText();
-      DateFormat sdf = new SimpleDateFormat("hh:mm:ss");
-
-		
-
+      //Duration Panel
       durationPanel = new JPanel(new FlowLayout(2));
       durationlabel = new JLabel("Duration of task");
       //TODO: set textfield size 
@@ -100,8 +118,8 @@ public class EnterTask implements ActionListener, ItemListener{
       tagPanel.add(projectbox);
       tagPanel.add(projectbutton);
       namePanel.add(tagPanel);
-      timePanel.add(timelabel);
-      timePanel.add(timetext);
+      timePanel.add(datelabel);
+      timePanel.add(dateTimePicker1);     
       durationPanel.add(durationlabel);
       durationPanel.add(durationtext);
       durationPanel.add(deadlinebutton);
@@ -119,12 +137,11 @@ public class EnterTask implements ActionListener, ItemListener{
       mainFrame.add(mainPanel);
       mainFrame.setJMenuBar(menubar);
    }
-   public static void main (String[]args){
-	   new EnterTask();
-	   mainFrame.pack();
-	   
    
+   static void displayDaT(){
+	   
    }
+   
 /* (non-Javadoc)
  * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
  */
